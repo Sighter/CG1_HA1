@@ -130,7 +130,6 @@ bool cgp1::readFromFile(char *filename)
 
 			/* read them all in a two dimensional pointer array */
 			long int i = 0;
-			int j = 0;
 
 			/* if we have color, we have to read three values*/
 			if (this->m_pBlockList[k]->m_iNumberComponents == 3 )
