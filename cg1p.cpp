@@ -244,7 +244,7 @@ void cgp1::sortBlocklist()
 void cgp1::writeToTga()
 {
 	/* open file in stream */
-	ofstream file("outputest.tga", ios::out | ios::trunc | ios::binary);
+	ofstream file("output.tga", ios::out | ios::trunc | ios::binary);
 	
 	if (file.is_open())
 	{
