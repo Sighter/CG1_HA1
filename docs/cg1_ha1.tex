@@ -3,6 +3,9 @@
 
 \documentclass{article}
 \usepackage{times}
+\usepackage{german}
+\usepackage{fancyhdr}
+\usepackage[utf8]{inputenc}
 
 \title{Computergraphik 1. Hausaufgabe\\Dokumentation}
 \author
@@ -19,29 +22,57 @@
 
 \section{Anwendung}
 Das Programm wird mit der folgenden Syntax aufgerufen:\\
-\texttt{cg1\_ha1 <argument>}
+\texttt{>> cg1\_ha1 <argument>}\\
+Wobei \textless argument\textgreater\ mit einem Dateiname eines Files des Typs
+cgp1 zu ersetzen ist. Der Aufruf darf derzeit nur ein Argument besitzen.
 
-Der Aufruf darf derzeit nur ein Argument besitzen.
 Dies erstellt nun eine Datei mit dem Schema: filename.tga
-Ist jedoch eine Datei gegeben die nicht die Endung ".cg1" besitzt,
-wird die Ausgabedatei unter dem Standardname "output.tga" gespeichert.
+Ist jedoch eine Datei gegeben die nicht die Endung '.cg1' besitzt,
+wird die Ausgabedatei unter dem Standardname 'output.tga' gespeichert.
 
+Da das Programm unter Linux entstanden ist, ist es leider nicht möglich eine .exe-Datei
+mit anzuhängen. Allerdings liegt ein makefile bei, aus welchem sie die genauen Compilier-Kommandos
+entnehmen können.
 
-\section{Erkl\"arungen}
+\section{Erklärungen}
 
-Das Programm ist unter Linux entstanden, dass es nicht m\"oglich ist eine .exe-Datei
-mit anzuh\"angen.
-Ich habe mich weiterhin f\"ur die C++-Implementation der Aufgabe entschieden, da es den aktuelleren
+Ich habe mich für die C++-Implementation der Aufgabe entschieden, da es den aktuelleren
 und sicheren Stand der Dinge widerspiegelt.
-Im Folgenden sind die Quelltextdateien jeweils kurz erläutert.
+Im Folgenden sind die Quelltextdateien und die dazugehörigen Datenstrukturen jeweils kurz erläutert.
 
 \subsection{cg1\_ha1.h}
-lala
-\subsection{cg1\_ha1.cpp}
-lala
-\subsection{cg1\_ha1\textunderscore main.cpp}
-lala
+In dieser Datei sind die Klassen-\emph{Deklarationen} für die Klassen \texttt{cgp1} und \texttt{puzzleBlock} plaziert.
+Des weiteren finden sich hier Typendefinitionen, um mit den von ihnen vorgegebenen Spezifikationen besser umgehen
+zu können (UBYTE, USHORT, UINT)
 
+\subsubsection{Class: cgp1}
+Die Klasse cgp1 repräsentiert das gleichnamige Format. Sie beinhaltet eine Methode zum lesen des Eingabe-Files,
+welche die Membervariablen der Klasse mit den korrespondierenden Informationen füttert. Zum schreiben wird die Methode
+\texttt{writeToTga()} verwendet. Als drittes wichtiges Element enthält die Klasse ein Feld von Zeigern auf
+puzzleBlock-Instanzen welche die einzelnen Puzzelblöcke verwalten.
+
+\subsubsection{Class: puzzleBlock}
+Wie oben genannt, wird diese Klasse benutzt um die relevanten Informationen für einzelne Puzzelblöcke zu speichern.
+Das wichtigste Element hier ist das 2-Dimensionale Feld \texttt{UBYTE **m\_pPixelField}\ um die Pixeldaten abzulegen.
+Dabei wird das Zeigerkonzept verwendet um die Daten dynamisch im Heap zu organisieren.
+
+\subsection{cg1\_ha1.cpp}
+In dieser Quellcodedatei werden die Methoden, Initiatoren und Destruktoren für die 2 Haupt-Klassen
+\footnote[1]{Meines Erachtens ist es nach ISO-Standard vorgesehen für jede Klasse ein Header-File und ein
+.cpp-File zu benutzen.} \emph{definiert}.
+Allerdings war es nötig einen Destuktor manuell aufzurufen um Valgrind\footnote[2]{Programm zum finden von Memory-Leaks}
+zufrieden zu stellen.
+
+Des weiteren sind jeweils print-Funktionen definiert, welche ich zum Kontrollieren des Lesevorgangs verwendet habe. Diese
+werden allerdings nicht mehr aufgerufen.
+
+\subsection{cg1\_ha1\textunderscore main.cpp}
+In dieser Quelldatei wird die Main-Funktion des Programmes definiert. Genauer werden hier die Programmargumente ausgewertet
+und unter Nicht-Verwendung der string-libary (weder c noch c++) recht umständlich der Dateiname umgeschrieben um die Endung
+\texttt{.cg1} in \texttt{.tga} zu wandeln.
+
+Ich bitte vielmals um Entschuldigung ihr Benennungsschemata nicht eingehalten zu haben, aber - ohne verbesserlich sein zu wollen -
+eine main-Funktion gehöhrt nun einmal in eine separate Datei. Standards sind ja nu mal da um eingehalten zu werden.
 
 \end{document}
 
