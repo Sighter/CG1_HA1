@@ -3,7 +3,7 @@
 #include <fstream>
 using namespace std;
 
-#include "cg1p.h"
+#include "cg1_ha1.h"
 
 
 /* constructor -- cgp1() {{{

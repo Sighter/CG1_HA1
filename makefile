@@ -31,18 +31,18 @@ CFLAGS=-c -g -xc++ \
 
 		
 
-all: cg1p
+all: cg1_ha1
 
-main: cg1p.o main.o
-	$(CC) cg1p.o main.o -o main
+cg1_ha1: cg1_ha1.o cg1_ha1_main.o
+	$(CC) cg1_ha1.o cg1_ha1_main.o -o cg1_ha1
 
-cg1p.o: cg1p.cpp
-	$(CC) $(CFLAGS) cg1p.cpp
+cg1_ha1.o: cg1_ha1.cpp
+	$(CC) $(CFLAGS) cg1_ha1.cpp
 
-main.o: main.cpp
-	$(CC) $(CFLAGS) main.cpp
+cg1_ha1_main.o: cg1_ha1_main.cpp
+	$(CC) $(CFLAGS) cg1_ha1_main.cpp
 
 clean:
-	rm -rf *o main
+	rm -rf *o cg1_ha1
 
 

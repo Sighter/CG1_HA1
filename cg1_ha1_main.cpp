@@ -1,5 +1,5 @@
 
-#include "cg1p.h"
+#include "cg1_ha1.h"
 #include <iostream>
 
 using namespace std;

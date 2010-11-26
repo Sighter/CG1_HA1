@@ -1,5 +1,5 @@
 
-#define cgp1_h
+#define cg1_ha1_h
 
 /* custom type declarations */
 typedef unsigned char UBYTE;
