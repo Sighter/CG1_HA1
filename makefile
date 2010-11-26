@@ -31,7 +31,7 @@ CFLAGS=-c -g -xc++ \
 
 		
 
-all: main
+all: cg1p
 
 main: cg1p.o main.o
 	$(CC) cg1p.o main.o -o main

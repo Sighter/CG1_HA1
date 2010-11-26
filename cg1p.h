@@ -37,9 +37,9 @@ class cgp1
 	public:
 		cgp1();
 		~cgp1();
-		bool readFromFile(char *filename);
+		int readFromFile(char *filename);
 		void print();
-		void writeToTga();
+		bool writeToTga(char* filename);
 		void sortBlocklist();
 };
 /* end of cgp1 }}} */ 

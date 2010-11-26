@@ -69,9 +69,10 @@ void cgp1::print()
 
 /* method -- void readFromFile (char *filename) {{{
  * @ pointer to filename
- * < false if file cant be open
+ * < -1 if file can't be opened
+ *   -2 if filetype is incorrect
  * ****************************** */
-bool cgp1::readFromFile(char *filename)
+int cgp1::readFromFile(char *filename)
 {
 	/* open file in stream */
 	ifstream file(filename, ios::in | ios::binary | ios::ate);
@@ -87,6 +88,18 @@ bool cgp1::readFromFile(char *filename)
 		m_pchFiletype = new char[4];
 		file.read (m_pchFiletype, 4);
 
+		/* check, whether we a CGP1 File */
+		/* because we have no string functions, we
+		 * have to do it so */
+		if (m_pchFiletype[0] != 'C' ||
+			m_pchFiletype[1] != 'G' ||
+			m_pchFiletype[2] != '1' ||
+			m_pchFiletype[3] != 'P')
+		{
+			return -2;
+		}
+
+
 		/* read lengh of file */ 
 		file.read((char*)&m_iByteLengh, sizeof(UINT));
 
@@ -98,7 +111,7 @@ bool cgp1::readFromFile(char *filename)
 		file.read((char*)&m_iHorNumberOfParts, sizeof(USHORT));
 		file.read((char*)&m_iVerNumberOfParts, sizeof(USHORT));
 
-		this->print();
+		/* this->print(); */
 
 		/* create pzzlBlock array */
 		m_pBlockList = new puzzleBlock*[m_iHorNumberOfParts * m_iVerNumberOfParts];
@@ -108,7 +121,7 @@ bool cgp1::readFromFile(char *filename)
 		{
 			/* read the first puzzleBlock */
 			file.read (pzzlid, 4);
-			cout.write(pzzlid, 4);
+			/* cout.write(pzzlid, 4); */
 
 			/* create new puzzleBlock instance and feed it */
 			m_pBlockList[k] = new puzzleBlock;
@@ -121,7 +134,7 @@ bool cgp1::readFromFile(char *filename)
 			/* calculate the number of pixels */
 			m_pBlockList[k]->m_iNumberOfPixels = (m_pBlockList[k]->m_iBlockLength - 8) / m_pBlockList[k]->m_iNumberComponents;
 
-			m_pBlockList[k]->print();
+			/* m_pBlockList[k]->print(); */
 
 
 			/* create a pixelfield */
@@ -182,17 +195,14 @@ bool cgp1::readFromFile(char *filename)
 
 
 		}	
-		if (file.eof())
-			cout << "end of file" << endl;
-		cout << file.tellg() << endl;
 		file.close();
 
 
 	}
 	else
-		return false;
+		return -2;
 
-	return true;
+	return 0;
 
 }
 /* end of readFromFile () }}} */ 
@@ -212,7 +222,6 @@ void cgp1::sortBlocklist()
 	long int iNumBlocks = this->m_iHorNumberOfParts * this->m_iVerNumberOfParts;
 	int iMin;
 
-	cout << "Sorting ...\n";
 	for (i = 0; i < iNumBlocks; i++)
 	{
 		iMin = i;
@@ -226,10 +235,6 @@ void cgp1::sortBlocklist()
 		this->m_pBlockList[iMin] = pTemp;
 	}
 
-	for (i = 0; i < iNumBlocks; i++)
-	{
-		cout << this->m_pBlockList[i]->m_iIndex << endl;
-	}
 		
 }
 /* end of }}} */ 
@@ -237,13 +242,13 @@ void cgp1::sortBlocklist()
 
 
 /* method -- writeToTga() {{{
- * @ none
- * < none
+ * @ filename
+ * < true on succsess otherwise false
  * ****************************** */
-void cgp1::writeToTga()
+bool cgp1::writeToTga(char *filename)
 {
 	/* open file in stream */
-	ofstream file("output.tga", ios::out | ios::trunc | ios::binary);
+	ofstream file(filename, ios::out | ios::trunc | ios::binary);
 	
 	if (file.is_open())
 	{
@@ -328,6 +333,10 @@ void cgp1::writeToTga()
 
 		file.close();
 	}
+	else
+		return false;
+
+	return true;
 
 }
 /* end of writeToTga }}} */ 
